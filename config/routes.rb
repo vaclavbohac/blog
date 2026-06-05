@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get "about/index"
   root "homepage#index"
 
   resources :posts
