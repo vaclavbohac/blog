@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
   resource :session
-  resources :passwords, param: :token
   resources :work_experiences
   get "about/index"
   root "homepage#index"
