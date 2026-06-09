@@ -1,10 +1,9 @@
-<%# Primary navigation links. Articles maps to the Posts index; Projects/Speaking/Uses
+<%# Primary navigation links. Articles maps to the Posts index; Projects/Uses
     have no routes yet (will 404 until those pages exist). %>
 <% nav_links = [
      ["About",    about_index_path],
      ["Articles", posts_path],
      ["Projects", "/projects"],
-     ["Speaking", "/speaking"],
      ["Uses",     "/uses"],
    ] %>
 
@@ -16,7 +15,7 @@
               <div class="flex flex-1">
                 <div class="h-10 w-10 rounded-full bg-white/90 p-0.5 shadow-lg ring-1 shadow-zinc-800/5 ring-zinc-900/5 backdrop-blur-sm dark:bg-zinc-800/90 dark:ring-white/10">
                   <%= link_to root_path, "aria-label": "Home", class: "pointer-events-auto" do %>
-                    <%= image_tag "avatar.jpg", alt: "", class: "h-9 w-9 rounded-full bg-zinc-100 object-cover dark:bg-zinc-800" %>
+                    <%= image_tag "vaclavbohac.jpeg", alt: "", class: "h-9 w-9 rounded-full bg-zinc-100 object-cover dark:bg-zinc-800" %>
                   <% end %>
                 </div>
               </div>
