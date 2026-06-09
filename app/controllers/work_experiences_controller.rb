@@ -1,4 +1,5 @@
 class WorkExperiencesController < ApplicationController
+  allow_unauthenticated_access only: %i[ index show ]
   before_action :set_work_experience, only: %i[ show edit update destroy ]
 
   # GET /work_experiences or /work_experiences.json

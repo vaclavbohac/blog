@@ -19,3 +19,14 @@
     experience.assign_attributes(attrs)
   end
 end
+
+# Admin user for content management. In production the credentials must be
+# provided explicitly; outside production a default is created for convenience.
+admin_email = ENV["ADMIN_EMAIL"]
+admin_password = ENV["ADMIN_PASSWORD"]
+
+if admin_email && admin_password
+  User.find_or_create_by!(email_address: admin_email) { |u| u.password = admin_password }
+elsif !Rails.env.production?
+  User.find_or_create_by!(email_address: "admin@example.com") { |u| u.password = "password" }
+end

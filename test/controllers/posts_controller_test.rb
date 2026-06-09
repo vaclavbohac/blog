@@ -3,11 +3,46 @@ require "test_helper"
 class PostsControllerTest < ActionDispatch::IntegrationTest
   setup do
     @post = posts(:one)
+    sign_in_as users(:one)
   end
 
   test "should get index" do
     get posts_url
     assert_response :success
+  end
+
+  test "index and show are accessible without authentication" do
+    published = create_post(published_at: 1.day.ago)
+    sign_out
+
+    get posts_url
+    assert_response :success
+
+    get post_url(published)
+    assert_response :success
+  end
+
+  test "write actions require authentication" do
+    sign_out
+
+    get new_post_url
+    assert_redirected_to new_session_path
+
+    assert_no_difference("Post.count") do
+      post posts_url, params: { post: { title: "x", perex: "x", body: "x" } }
+    end
+    assert_redirected_to new_session_path
+
+    get edit_post_url(@post)
+    assert_redirected_to new_session_path
+
+    patch post_url(@post), params: { post: { title: "x" } }
+    assert_redirected_to new_session_path
+
+    assert_no_difference("Post.count") do
+      delete post_url(@post)
+    end
+    assert_redirected_to new_session_path
   end
 
   test "index lists published posts and hides drafts and future posts" do
