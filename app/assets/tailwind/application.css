@@ -4,6 +4,18 @@
    and the no-flash script in the application layout). Mirrors the Spotlight template. */
 @custom-variant dark (&:where(.dark, .dark *));
 
+/* Code blocks: Rouge token colors live in syntax.css; this is the structural
+   frame shared by Markdown (database) and ERB (file) articles. */
+pre.highlight {
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+  padding: 1rem 1.25rem;
+  border-radius: 0.5rem;
+  overflow-x: auto;
+  font-size: 0.875rem;
+  line-height: 1.5rem;
+}
+
 /* Spotlight's type scale (font sizes paired with line heights). */
 @theme {
   --text-xs: 0.8125rem;

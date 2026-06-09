@@ -1,0 +1,19 @@
+<nav class="mt-16 flex items-stretch justify-between gap-4 border-t border-zinc-100 pt-8 dark:border-zinc-700/40">
+  <% if @previous %>
+    <%= link_to post_path(@previous), class: "group flex flex-1 flex-col rounded-xl border border-zinc-200 px-4 py-3 transition hover:border-zinc-300 dark:border-zinc-700/50 dark:hover:border-zinc-600" do %>
+      <span class="text-xs text-zinc-400 dark:text-zinc-500">← Previous</span>
+      <span class="mt-1 text-sm font-medium text-zinc-800 dark:text-zinc-100"><%= @previous.title %></span>
+    <% end %>
+  <% else %>
+    <span class="flex-1"></span>
+  <% end %>
+
+  <% if @next %>
+    <%= link_to post_path(@next), class: "group flex flex-1 flex-col rounded-xl border border-zinc-200 px-4 py-3 text-right transition hover:border-zinc-300 dark:border-zinc-700/50 dark:hover:border-zinc-600" do %>
+      <span class="text-xs text-zinc-400 dark:text-zinc-500">Next →</span>
+      <span class="mt-1 text-sm font-medium text-zinc-800 dark:text-zinc-100"><%= @next.title %></span>
+    <% end %>
+  <% else %>
+    <span class="flex-1"></span>
+  <% end %>
+</nav>

@@ -104,6 +104,49 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
     assert_select "a[href=?][aria-label=?]", posts_path, "Go back to articles"
   end
 
+  test "show renders a database article body as sanitized, highlighted Markdown" do
+    post = create_post(
+      body: "## Heading\n\n<script>alert('xss')</script>\n\n```elixir\n:ok\n```",
+      published_at: 1.day.ago
+    )
+
+    get post_url(post)
+
+    assert_response :success
+    assert_select "article h2", text: /Heading/
+    assert_select "article pre.highlight[data-language=?]", "elixir"
+    assert_not_includes response.body, "alert('xss')"
+  end
+
+  test "show renders a file-backed article from its ERB template" do
+    series = Series.create!(title: "Learning Elixir")
+    article = create_post(
+      body: nil,
+      content_path: "post_content/elixir_first_steps",
+      series: series,
+      position: 1,
+      published_at: 1.day.ago
+    )
+
+    get post_url(article)
+
+    assert_response :success
+    assert_select "pre.highlight[data-language=?]", "elixir"
+    assert_select "section#fizzbuzz [data-playground-run]"
+  end
+
+  test "show renders series previous/next navigation" do
+    series = Series.create!(title: "Learning Elixir")
+    first = create_post(title: "Part 1", series: series, position: 1, published_at: 1.day.ago)
+    second = create_post(title: "Part 2", series: series, position: 2, published_at: 1.day.ago)
+
+    get post_url(first)
+
+    assert_response :success
+    assert_select "nav a[href=?]", post_path(second), text: /Part 2/
+    assert_select "nav a[href=?]", post_path(first), count: 0
+  end
+
   test "should get edit" do
     get edit_post_url(@post)
     assert_response :success
