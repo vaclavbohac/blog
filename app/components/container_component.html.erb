@@ -1,0 +1,5 @@
+<%= render Container::OuterComponent.new(class_name: @class_name, **@attrs) do %>
+  <%= render Container::InnerComponent.new do %>
+    <%= content %>
+  <% end %>
+<% end %>

@@ -11,5 +11,15 @@ module ActiveSupport
     fixtures :all
 
     # Add more helper methods to be used by all tests here...
+
+    # Build a Post with valid defaults; override any attribute via keyword args.
+    def build_post(**attrs)
+      Post.new({ title: "A title", perex: "A perex", body: "A body" }.merge(attrs))
+    end
+
+    # Build and persist a Post with valid defaults.
+    def create_post(**attrs)
+      build_post(**attrs).tap(&:save!)
+    end
   end
 end

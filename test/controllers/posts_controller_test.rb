@@ -10,6 +10,19 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  test "index lists published posts and hides drafts and future posts" do
+    published = create_post(title: "Published article", perex: "Visible perex", published_at: 1.day.ago)
+    draft = create_post(title: "Draft article", published_at: nil)
+    scheduled = create_post(title: "Scheduled article", published_at: 1.day.from_now)
+
+    get posts_url
+
+    assert_response :success
+    assert_select "article a[href=?]", post_path(published), text: published.title
+    assert_select "a[href=?]", post_path(draft), count: 0
+    assert_select "a[href=?]", post_path(scheduled), count: 0
+  end
+
   test "should get new" do
     get new_post_url
     assert_response :success
@@ -24,8 +37,36 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should show post" do
-    get post_url(@post)
+    published = create_post(published_at: 1.day.ago)
+    get post_url(published)
     assert_response :success
+  end
+
+  test "show returns 404 for an unpublished draft" do
+    draft = create_post(title: "Draft", published_at: nil)
+
+    get post_url(draft)
+    assert_response :not_found
+  end
+
+  test "show returns 404 for a post scheduled in the future" do
+    scheduled = create_post(title: "Scheduled", published_at: 1.day.from_now)
+
+    get post_url(scheduled)
+    assert_response :not_found
+  end
+
+  test "show renders the article with title, date and body, and a link back to articles" do
+    post = create_post(title: "My Article", body: "First paragraph.\n\nSecond paragraph.", published_at: Date.new(2022, 9, 5).noon)
+
+    get post_url(post)
+
+    assert_response :success
+    assert_select "article h1", text: "My Article"
+    assert_select "article time", text: "September 5, 2022"
+    assert_select "article p", text: "First paragraph."
+    assert_select "article p", text: "Second paragraph."
+    assert_select "a[href=?][aria-label=?]", posts_path, "Go back to articles"
   end
 
   test "should get edit" do

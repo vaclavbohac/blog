@@ -1,16 +1,26 @@
-<p style="color: green"><%= notice %></p>
+<% content_for :title, "Articles" %>
 
-<% content_for :title, "Posts" %>
-
-<h1>Posts</h1>
-
-<div id="posts">
-  <% @posts.each do |post| %>
-    <%= render post %>
-    <p>
-      <%= link_to "Show this post", post %>
-    </p>
-  <% end %>
-</div>
-
-<%= link_to "New post", new_post_path %>
+<%= render SimpleLayoutComponent.new(
+      title: "Writing on software design, company building, and the aerospace industry.",
+      intro: "All of my long-form thoughts on programming, leadership, product design, and more, collected in chronological order."
+    ) do %>
+  <div class="md:border-l md:border-zinc-100 md:pl-6 md:dark:border-zinc-700/40">
+    <div class="flex max-w-3xl flex-col space-y-16">
+      <% @posts.each do |post| %>
+        <% published_label = post.published_at.strftime("%B %-d, %Y") %>
+        <% published_datetime = post.published_at.iso8601 %>
+        <article class="md:grid md:grid-cols-4 md:items-baseline">
+          <%= render CardComponent.new(as: :div, class_name: "md:col-span-3") do |card| %>
+            <% card.with_title(href: post_path(post)) { post.title } %>
+            <% card.with_eyebrow(as: :time, decorate: true, class_name: "md:hidden", datetime: published_datetime) { published_label } %>
+            <% card.with_description { post.perex } %>
+            <% card.with_cta { "Read article" } %>
+          <% end %>
+          <%= render CardComponent::EyebrowComponent.new(as: :time, class_name: "mt-1 max-md:hidden", datetime: published_datetime) do %>
+            <%= published_label %>
+          <% end %>
+        </article>
+      <% end %>
+    </div>
+  </div>
+<% end %>

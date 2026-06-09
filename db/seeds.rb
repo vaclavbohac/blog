@@ -7,3 +7,15 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
+
+# Work history shown in the Resume sidebar on the homepage.
+[
+  { company: "Planetaria", role: "CEO", logo: "planetaria.svg", started_on: Date.new(2019, 1, 1), ended_on: nil },
+  { company: "Airbnb", role: "Product Designer", logo: "airbnb.svg", started_on: Date.new(2014, 1, 1), ended_on: Date.new(2019, 1, 1) },
+  { company: "Facebook", role: "iOS Software Engineer", logo: "facebook.svg", started_on: Date.new(2011, 1, 1), ended_on: Date.new(2014, 1, 1) },
+  { company: "Starbucks", role: "Shift Supervisor", logo: "starbucks.svg", started_on: Date.new(2008, 1, 1), ended_on: Date.new(2011, 1, 1) }
+].each do |attrs|
+  WorkExperience.find_or_create_by!(company: attrs[:company]) do |experience|
+    experience.assign_attributes(attrs)
+  end
+end

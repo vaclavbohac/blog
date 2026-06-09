@@ -1,0 +1,5 @@
+<% if @href %>
+  <%= link_to @href, class: classes, **@attrs do %><%= content %><% end %>
+<% else %>
+  <%= tag.button class: classes, **@attrs do %><%= content %><% end %>
+<% end %>

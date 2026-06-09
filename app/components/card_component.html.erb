@@ -1,0 +1,6 @@
+<%= content_tag @as, class: classes, **@attrs do %>
+  <%= title if title? %>
+  <%= eyebrow if eyebrow? %>
+  <%= description if description? %>
+  <%= cta if cta? %>
+<% end %>

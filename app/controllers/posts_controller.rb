@@ -1,9 +1,10 @@
 class PostsController < ApplicationController
-  before_action :set_post, only: %i[ show edit update destroy ]
+  before_action :set_post, only: %i[ edit update destroy ]
+  before_action :set_published_post, only: %i[ show ]
 
   # GET /posts or /posts.json
   def index
-    @posts = Post.all
+    @posts = Post.published
   end
 
   # GET /posts/1 or /posts/1.json
@@ -63,8 +64,14 @@ class PostsController < ApplicationController
       @post = Post.find(params.expect(:id))
     end
 
+    # Public article lookup: only posts that have already been published are
+    # reachable by URL (drafts and future posts 404).
+    def set_published_post
+      @post = Post.published.find(params.expect(:id))
+    end
+
     # Only allow a list of trusted parameters through.
     def post_params
-      params.expect(post: [ :title, :body, :perex ])
+      params.expect(post: [ :title, :body, :perex, :published_at ])
     end
 end
