@@ -1,0 +1,63 @@
+<p>
+  My first encounter with Elixir was the humble <code>FizzBuzz</code>. It is a
+  tiny problem, but it shows off two things I immediately liked about the
+  language: pattern matching and the pipe operator. Here is the whole program.
+</p>
+
+<%= render CodeBlockComponent.new(language: "elixir", source: <<~ELIXIR) %>
+  defmodule FizzBuzz do
+    def play(n) do
+      1..n
+      |> Enum.map(&label/1)
+      |> Enum.join(" ")
+    end
+
+    defp label(i) when rem(i, 15) == 0, do: "FizzBuzz"
+    defp label(i) when rem(i, 3) == 0, do: "Fizz"
+    defp label(i) when rem(i, 5) == 0, do: "Buzz"
+    defp label(i), do: Integer.to_string(i)
+  end
+ELIXIR
+
+<p>
+  Instead of <code>if/else</code> chains, each case of <code>label/1</code> is a
+  separate function clause guarded by a condition. Elixir tries them top to
+  bottom and runs the first one that matches. Below is the exact same program,
+  reimplemented in JavaScript — change <em>n</em> and run it.
+</p>
+
+<%= render PlaygroundComponent.new(id: "fizzbuzz", title: "FizzBuzz (JavaScript port)") do %>
+  <label class="flex items-center gap-2">
+    <span>n =</span>
+    <input id="fizzbuzz-n" type="number" min="1" max="100" value="15"
+      class="w-24 rounded-md border border-zinc-300 px-2 py-1 dark:border-zinc-600 dark:bg-zinc-900">
+  </label>
+<% end %>
+
+<script>
+  (() => {
+    const root = document.getElementById("fizzbuzz");
+    if (!root) return;
+    const out = root.querySelector("[data-playground-output]");
+
+    const label = (i) =>
+      i % 15 === 0 ? "FizzBuzz" :
+      i % 3 === 0  ? "Fizz" :
+      i % 5 === 0  ? "Buzz" :
+      String(i);
+
+    const play = (n) =>
+      Array.from({ length: n }, (_, k) => label(k + 1)).join(" ");
+
+    root.querySelector("[data-playground-run]").addEventListener("click", () => {
+      const n = Math.max(1, Math.min(100, Number(root.querySelector("#fizzbuzz-n").value) || 1));
+      out.textContent = play(n);
+    });
+  })();
+</script>
+
+<p>
+  That is the loop I will keep repeating throughout this series: write a small
+  Elixir program, then port it to JavaScript so you can poke at it right here in
+  the browser. Next time we will pattern-match our way through recursion.
+</p>

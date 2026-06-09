@@ -42,4 +42,41 @@ class PostTest < ActiveSupport::TestCase
     assert_not build_post(published_at: 1.day.from_now).published?
     assert_not build_post(published_at: nil).published?
   end
+
+  test "file_backed? reflects the presence of content_path" do
+    assert build_post(content_path: "post_content/x").file_backed?
+    assert_not build_post.file_backed?
+  end
+
+  test "body is not required for file-backed articles" do
+    assert build_post(body: nil, content_path: "post_content/x").valid?
+  end
+
+  test "series navigation walks published siblings by position" do
+    series = Series.create!(title: "Elixir")
+    p1 = create_post(series: series, position: 1, published_at: 1.day.ago)
+    p2 = create_post(series: series, position: 2, published_at: 1.day.ago)
+    p3 = create_post(series: series, position: 3, published_at: 1.day.ago)
+
+    assert_equal p1, p2.previous_in_series
+    assert_equal p3, p2.next_in_series
+    assert_nil p1.previous_in_series
+    assert_nil p3.next_in_series
+  end
+
+  test "series navigation skips unpublished siblings" do
+    series = Series.create!(title: "Elixir")
+    p1 = create_post(series: series, position: 1, published_at: 1.day.ago)
+    create_post(series: series, position: 2, published_at: nil)
+    p3 = create_post(series: series, position: 3, published_at: 1.day.ago)
+
+    assert_equal p3, p1.next_in_series
+  end
+
+  test "standalone posts have no series navigation" do
+    post = create_post(position: 1)
+
+    assert_nil post.previous_in_series
+    assert_nil post.next_in_series
+  end
 end

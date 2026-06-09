@@ -1,0 +1,21 @@
+<section id="<%= @id %>" data-playground
+  class="my-8 overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm dark:border-zinc-700/50 dark:bg-zinc-800/50">
+  <% if @title.present? %>
+    <header class="border-b border-zinc-200 px-5 py-3 text-sm font-semibold text-zinc-800 dark:border-zinc-700/50 dark:text-zinc-100">
+      <%= @title %>
+    </header>
+  <% end %>
+  <div class="space-y-4 p-5">
+    <div data-playground-inputs class="space-y-3 text-sm text-zinc-700 dark:text-zinc-300">
+      <%= content %>
+    </div>
+    <div>
+      <button type="button" data-playground-run
+        class="inline-flex items-center gap-1 rounded-md bg-zinc-800 px-3 py-1.5 text-sm font-medium text-white transition hover:bg-zinc-700 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-white">
+        <%= @run_label %>
+      </button>
+    </div>
+    <pre data-playground-output aria-live="polite"
+      class="m-0 min-h-[2.5rem] overflow-x-auto rounded-md bg-zinc-50 px-4 py-3 font-mono text-sm whitespace-pre-wrap text-zinc-800 dark:bg-zinc-900 dark:text-zinc-200"></pre>
+  </div>
+</section>

@@ -1,5 +1,11 @@
 <% content_for :title, @post.title %>
 
 <%= render ArticleLayoutComponent.new(post: @post, back_path: posts_path) do %>
-  <%= simple_format(@post.body) %>
+  <% if @post.file_backed? %>
+    <%= render template: @post.content_path %>
+  <% else %>
+    <%= MarkdownRenderer.render(@post.body) %>
+  <% end %>
+
+  <%= render SeriesNavComponent.new(post: @post) %>
 <% end %>

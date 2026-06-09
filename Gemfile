@@ -23,6 +23,11 @@ gem "jbuilder"
 # Component-based view layer [https://viewcomponent.org]
 gem "view_component"
 
+# Markdown rendering for database-authored article bodies [https://github.com/gjtorikian/commonmarker]
+gem "commonmarker"
+# Syntax highlighting for code blocks (shared by Markdown + ERB articles) [https://github.com/rouge-ruby/rouge]
+gem "rouge"
+
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
 gem "bcrypt", "~> 3.1.7"
 

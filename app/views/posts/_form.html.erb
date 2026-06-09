@@ -17,13 +17,28 @@
   </div>
 
   <div>
-    <%= form.label :body, style: "display: block" %>
+    <%= form.label :perex, style: "display: block" %>
+    <%= form.textarea :perex %>
+  </div>
+
+  <div>
+    <%= form.label :body, "Body (Markdown — used only when no template is set)", style: "display: block" %>
     <%= form.textarea :body %>
   </div>
 
   <div>
-    <%= form.label :perex, style: "display: block" %>
-    <%= form.textarea :perex %>
+    <%= form.label :content_path, "Template (logical path, e.g. post_content/pattern_matching — leave blank for a Markdown article)", style: "display: block" %>
+    <%= form.text_field :content_path %>
+  </div>
+
+  <div>
+    <%= form.label :series_id, "Series", style: "display: block" %>
+    <%= form.collection_select :series_id, Series.ordered, :id, :title, include_blank: "— none —" %>
+  </div>
+
+  <div>
+    <%= form.label :position, "Position in series", style: "display: block" %>
+    <%= form.number_field :position %>
   </div>
 
   <div>
