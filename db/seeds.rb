@@ -8,12 +8,13 @@
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
 
-# Work history shown in the Resume sidebar on the homepage.
+# Work history shown in the Resume sidebar on the homepage. Dates are
+# month-precision from LinkedIn (stored as the first of the month).
 [
-  { company: "Planetaria", role: "CEO", logo: "planetaria.svg", started_on: Date.new(2019, 1, 1), ended_on: nil },
-  { company: "Airbnb", role: "Product Designer", logo: "airbnb.svg", started_on: Date.new(2014, 1, 1), ended_on: Date.new(2019, 1, 1) },
-  { company: "Facebook", role: "iOS Software Engineer", logo: "facebook.svg", started_on: Date.new(2011, 1, 1), ended_on: Date.new(2014, 1, 1) },
-  { company: "Starbucks", role: "Shift Supervisor", logo: "starbucks.svg", started_on: Date.new(2008, 1, 1), ended_on: Date.new(2011, 1, 1) }
+  { company: "Productboard", role: "Senior Software Engineer", logo: "productboard.jpeg", started_on: Date.new(2021, 1, 1), ended_on: Date.new(2026, 5, 1) },
+  { company: "Panoramic", role: "Full Stack Engineer", logo: "panoramic.jpeg", started_on: Date.new(2018, 5, 1), ended_on: Date.new(2020, 11, 1) },
+  { company: "GoodData", role: "Principal Software Engineer", logo: "gooddata.jpeg", started_on: Date.new(2014, 7, 1), ended_on: Date.new(2018, 4, 1) },
+  { company: "Proof & Reason", role: "Web Developer", logo: "proof-and-reason.jpeg", started_on: Date.new(2012, 6, 1), ended_on: Date.new(2014, 7, 1) }
 ].each do |attrs|
   WorkExperience.find_or_create_by!(company: attrs[:company]) do |experience|
     experience.assign_attributes(attrs)
