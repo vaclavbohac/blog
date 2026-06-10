@@ -2,12 +2,10 @@
 <%= render ContainerComponent.new(class_name: "mt-9") do %>
   <div class="max-w-2xl">
     <h1 class="text-4xl font-bold tracking-tight text-zinc-800 sm:text-5xl dark:text-zinc-100">
-      Software designer, founder, and amateur astronaut.
+      Señor Software Engineer
     </h1>
     <p class="mt-6 text-base text-zinc-600 dark:text-zinc-400">
-      I’m Spencer, a software designer and entrepreneur based in New York City.
-      I’m the founder and CEO of Planetaria, where we develop technologies that
-      empower regular people to explore space on their own terms.
+      Hi, I&rsquo;m Václav, a programmer from the Czech Republic living in Seville. I&rsquo;ve been programming professionally for 16 years and enjoy both server and client-side work. I love learning new languages, frameworks, and tools. Outside of programming, I enjoy cycling, football, and chess.
     </p>
     <div class="mt-6 flex gap-6">
       <% social_links.each do |link| %>
@@ -22,11 +20,18 @@
 <%# Photos %>
 <div class="mt-16 sm:mt-20">
   <div class="-my-4 flex justify-center gap-5 overflow-hidden py-4 sm:gap-8">
-    <% ["image-1.jpg", "image-2.jpg", "image-3.jpg", "image-4.jpg", "image-5.jpg"].each_with_index do |image, i| %>
+    <% photos = [
+         ["vaclav-bea-japan.jpg", "Václav and Bea in Japan"],
+         ["vaclav-cycling.jpg", "Václav out on a bike ride"],
+         ["vaclav-ramen.jpg", "Václav with a bowl of ramen"],
+         ["freddie.jpg", "Freddie"],
+         ["vaclav-cycling-selfie.jpg", "Václav taking a cycling selfie"],
+       ] %>
+    <% photos.each_with_index do |(image, caption), i| %>
       <% rotation = ["rotate-2", "-rotate-2", "rotate-2", "rotate-2", "-rotate-2"][i % 5] %>
       <div class="relative w-44 flex-none overflow-hidden rounded-xl bg-zinc-100 sm:w-72 sm:rounded-2xl dark:bg-zinc-800 <%= rotation %>">
         <div class="aspect-9/10">
-          <%= image_tag image, alt: "", sizes: "(min-width: 640px) 18rem, 11rem", class: "absolute inset-0 h-full w-full object-cover" %>
+          <%= image_tag image, alt: caption, sizes: "(min-width: 640px) 18rem, 11rem", class: "absolute inset-0 h-full w-full object-cover" %>
         </div>
       </div>
     <% end %>
