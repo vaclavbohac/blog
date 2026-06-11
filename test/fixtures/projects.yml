@@ -3,11 +3,11 @@
 one:
   name: MyString
   description: MyString
-  logo: MyString
+  logo: starbucks.svg
   link: MyString
 
 two:
   name: MyString
   description: MyString
-  logo: MyString
+  logo: cosmos.svg
   link: MyString

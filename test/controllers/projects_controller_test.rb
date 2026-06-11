@@ -10,6 +10,6 @@ class ProjectsControllerTest < ActionDispatch::IntegrationTest
     get projects_url
 
     assert_select "h1", text: /put my dent in the universe/
-    assert_select "ul[role=list] > li", count: 5
+    assert_select "ul[role=list] > li", count: 2
   end
 end
