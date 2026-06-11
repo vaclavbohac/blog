@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   resource :session
   resources :work_experiences
   get "about/index"
+  get "projects", to: "projects#index"
   root "homepage#index"
 
   resources :posts
