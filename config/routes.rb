@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   resources :work_experiences
   get "about/index"
   get "projects", to: "projects#index"
+  get "uses", to: "uses#index"
   root "homepage#index"
 
   resources :posts
