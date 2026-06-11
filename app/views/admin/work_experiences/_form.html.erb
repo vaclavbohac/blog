@@ -1,0 +1,47 @@
+<%= form_with model: [ :admin, @work_experience ] do |f| %>
+  <% if @work_experience.errors.any? %>
+    <div class="mb-6 rounded-md bg-red-50 px-4 py-3 text-sm text-red-700 ring-1 ring-red-600/20 dark:bg-red-400/10 dark:text-red-300 dark:ring-red-400/20">
+      <%= pluralize(@work_experience.errors.count, "error") %> prevented saving.
+      <ul class="mt-1 list-disc list-inside"><% @work_experience.errors.full_messages.each do |m| %><li><%= m %></li><% end %></ul>
+    </div>
+  <% end %>
+
+  <div class="space-y-6">
+    <div class="space-y-2">
+      <%= f.label :company, class: "block text-sm font-medium text-zinc-700 dark:text-zinc-300" %>
+      <%= f.text_field :company, class: "block w-full rounded-md border #{f.object.errors[:company].any? ? "border-red-400 focus:outline-red-500 dark:border-red-500" : "border-zinc-300 focus:border-teal-500 focus:outline-teal-500 dark:border-zinc-700"} bg-white px-3 py-2 text-sm text-zinc-900 shadow-sm transition placeholder:text-zinc-400 focus:outline-2 dark:bg-zinc-800 dark:text-zinc-100" %>
+      <% f.object.errors[:company].each do |msg| %><p class="mt-1 text-sm text-red-600 dark:text-red-400"><%= msg %></p><% end %>
+    </div>
+
+    <div class="space-y-2">
+      <%= f.label :role, class: "block text-sm font-medium text-zinc-700 dark:text-zinc-300" %>
+      <%= f.text_field :role, class: "block w-full rounded-md border #{f.object.errors[:role].any? ? "border-red-400 focus:outline-red-500 dark:border-red-500" : "border-zinc-300 focus:border-teal-500 focus:outline-teal-500 dark:border-zinc-700"} bg-white px-3 py-2 text-sm text-zinc-900 shadow-sm transition placeholder:text-zinc-400 focus:outline-2 dark:bg-zinc-800 dark:text-zinc-100" %>
+      <% f.object.errors[:role].each do |msg| %><p class="mt-1 text-sm text-red-600 dark:text-red-400"><%= msg %></p><% end %>
+    </div>
+
+    <div class="space-y-2">
+      <%= f.label :logo, class: "block text-sm font-medium text-zinc-700 dark:text-zinc-300" %>
+      <%= f.text_field :logo, class: "block w-full rounded-md border #{f.object.errors[:logo].any? ? "border-red-400 focus:outline-red-500 dark:border-red-500" : "border-zinc-300 focus:border-teal-500 focus:outline-teal-500 dark:border-zinc-700"} bg-white px-3 py-2 text-sm text-zinc-900 shadow-sm transition placeholder:text-zinc-400 focus:outline-2 dark:bg-zinc-800 dark:text-zinc-100" %>
+      <p class="text-xs text-zinc-500 dark:text-zinc-400">Path or URL to the company logo, e.g. <code>planetaria.svg</code>.</p>
+      <% f.object.errors[:logo].each do |msg| %><p class="mt-1 text-sm text-red-600 dark:text-red-400"><%= msg %></p><% end %>
+    </div>
+
+    <div class="space-y-2">
+      <%= f.label :started_on, "Started on", class: "block text-sm font-medium text-zinc-700 dark:text-zinc-300" %>
+      <%= f.date_field :started_on, class: "block w-full rounded-md border #{f.object.errors[:started_on].any? ? "border-red-400 focus:outline-red-500 dark:border-red-500" : "border-zinc-300 focus:border-teal-500 focus:outline-teal-500 dark:border-zinc-700"} bg-white px-3 py-2 text-sm text-zinc-900 shadow-sm transition placeholder:text-zinc-400 focus:outline-2 dark:bg-zinc-800 dark:text-zinc-100" %>
+      <% f.object.errors[:started_on].each do |msg| %><p class="mt-1 text-sm text-red-600 dark:text-red-400"><%= msg %></p><% end %>
+    </div>
+
+    <div class="space-y-2">
+      <%= f.label :ended_on, "Ended on", class: "block text-sm font-medium text-zinc-700 dark:text-zinc-300" %>
+      <%= f.date_field :ended_on, class: "block w-full rounded-md border #{f.object.errors[:ended_on].any? ? "border-red-400 focus:outline-red-500 dark:border-red-500" : "border-zinc-300 focus:border-teal-500 focus:outline-teal-500 dark:border-zinc-700"} bg-white px-3 py-2 text-sm text-zinc-900 shadow-sm transition placeholder:text-zinc-400 focus:outline-2 dark:bg-zinc-800 dark:text-zinc-100" %>
+      <p class="text-xs text-zinc-500 dark:text-zinc-400">Leave blank for an ongoing role.</p>
+      <% f.object.errors[:ended_on].each do |msg| %><p class="mt-1 text-sm text-red-600 dark:text-red-400"><%= msg %></p><% end %>
+    </div>
+  </div>
+
+  <div class="flex items-center gap-3 pt-2">
+    <%= f.submit class: "inline-flex items-center justify-center rounded-md bg-teal-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-teal-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-500 disabled:opacity-50 dark:bg-teal-500 dark:hover:bg-teal-400" %>
+    <%= link_to "Cancel", admin_work_experiences_path, class: "inline-flex items-center justify-center rounded-md border border-zinc-300 bg-white px-4 py-2 text-sm font-semibold text-zinc-700 shadow-sm transition hover:bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-200 dark:hover:bg-zinc-700" %>
+  </div>
+<% end %>

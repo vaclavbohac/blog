@@ -1,0 +1,6 @@
+<div class="mb-8 flex items-center justify-between gap-4">
+  <h1 class="text-2xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100">Edit work experience</h1>
+  <%= link_to "Back", admin_work_experiences_path, class: "inline-flex items-center justify-center rounded-md border border-zinc-300 bg-white px-4 py-2 text-sm font-semibold text-zinc-700 shadow-sm transition hover:bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-200 dark:hover:bg-zinc-700" %>
+</div>
+
+<%= render "form", work_experience: @work_experience %>

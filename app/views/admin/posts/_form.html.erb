@@ -1,0 +1,102 @@
+<%= form_with model: [ :admin, @post ] do |f| %>
+  <% if @post.errors.any? %>
+    <div class="mb-6 rounded-md bg-red-50 px-4 py-3 text-sm text-red-700 ring-1 ring-red-600/20 dark:bg-red-400/10 dark:text-red-300 dark:ring-red-400/20">
+      <%= pluralize(@post.errors.count, "error") %> prevented saving.
+      <ul class="mt-1 list-disc list-inside">
+        <% @post.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="space-y-6">
+    <div class="space-y-2">
+      <%= f.label :title, class: "block text-sm font-medium text-zinc-700 dark:text-zinc-300" %>
+      <%= f.text_field :title,
+            class: "block w-full rounded-md border #{f.object.errors[:title].any? ? 'border-red-400 focus:outline-red-500 dark:border-red-500' : 'border-zinc-300 focus:border-teal-500 focus:outline-teal-500 dark:border-zinc-700'} bg-white px-3 py-2 text-sm text-zinc-900 shadow-sm transition placeholder:text-zinc-400 focus:outline-2 dark:bg-zinc-800 dark:text-zinc-100" %>
+      <% f.object.errors[:title].each do |message| %>
+        <p class="mt-1 text-sm text-red-600 dark:text-red-400"><%= message %></p>
+      <% end %>
+    </div>
+
+    <div class="space-y-2">
+      <%= f.label :perex, class: "block text-sm font-medium text-zinc-700 dark:text-zinc-300" %>
+      <%= f.text_area :perex, rows: 3,
+            class: "block w-full rounded-md border #{f.object.errors[:perex].any? ? 'border-red-400 focus:outline-red-500 dark:border-red-500' : 'border-zinc-300 focus:border-teal-500 focus:outline-teal-500 dark:border-zinc-700'} bg-white px-3 py-2 text-sm text-zinc-900 shadow-sm transition placeholder:text-zinc-400 focus:outline-2 dark:bg-zinc-800 dark:text-zinc-100" %>
+      <p class="text-xs text-zinc-500 dark:text-zinc-400">A short summary shown in listings.</p>
+      <% f.object.errors[:perex].each do |message| %>
+        <p class="mt-1 text-sm text-red-600 dark:text-red-400"><%= message %></p>
+      <% end %>
+    </div>
+
+    <div class="space-y-2" data-controller="markdown-editor" data-markdown-editor-preview-url-value="<%= preview_admin_posts_path %>">
+      <%= f.label :body, "Body (Markdown)", class: "block text-sm font-medium text-zinc-700 dark:text-zinc-300" %>
+
+      <div class="flex flex-wrap gap-1">
+        <% toolbar = [
+             ["Bold", "bold"],
+             ["Italic", "italic"],
+             ["H2", "heading"],
+             ["Code", "code"],
+             ["Fence", "codeFence"],
+             ["Link", "link"],
+             ["List", "unorderedList"]
+           ] %>
+        <% toolbar.each do |label, action| %>
+          <button type="button" data-action="markdown-editor#<%= action %>"
+                  class="rounded-md border border-zinc-300 bg-white px-2.5 py-1 text-xs font-medium text-zinc-700 shadow-sm transition hover:bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-200 dark:hover:bg-zinc-700">
+            <%= label %>
+          </button>
+        <% end %>
+      </div>
+
+      <div class="grid gap-4 md:grid-cols-2">
+        <%= f.text_area :body, rows: 18,
+              data: { "markdown-editor-target": "textarea", action: "input->markdown-editor#refresh" },
+              class: "block w-full rounded-md border #{f.object.errors[:body].any? ? 'border-red-400 focus:outline-red-500 dark:border-red-500' : 'border-zinc-300 focus:border-teal-500 focus:outline-teal-500 dark:border-zinc-700'} bg-white px-3 py-2 text-sm font-mono text-zinc-900 shadow-sm transition placeholder:text-zinc-400 focus:outline-2 dark:bg-zinc-800 dark:text-zinc-100" %>
+        <div data-markdown-editor-target="preview"
+             class="prose prose-zinc dark:prose-invert max-w-none overflow-auto rounded-md border border-zinc-200 bg-zinc-50 px-4 py-3 text-sm text-zinc-900 dark:border-zinc-800 dark:bg-zinc-800/50 dark:text-zinc-100">
+        </div>
+      </div>
+      <% f.object.errors[:body].each do |message| %>
+        <p class="mt-1 text-sm text-red-600 dark:text-red-400"><%= message %></p>
+      <% end %>
+    </div>
+
+    <div class="space-y-2">
+      <%= f.label :series_id, "Series", class: "block text-sm font-medium text-zinc-700 dark:text-zinc-300" %>
+      <%= f.collection_select :series_id, Series.ordered, :id, :title, { include_blank: "— none —" },
+            class: "block w-full rounded-md border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 shadow-sm transition focus:border-teal-500 focus:outline-2 focus:outline-teal-500 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-100" %>
+    </div>
+
+    <div class="space-y-2">
+      <%= f.label :position, class: "block text-sm font-medium text-zinc-700 dark:text-zinc-300" %>
+      <%= f.number_field :position,
+            class: "block w-full rounded-md border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 shadow-sm transition focus:border-teal-500 focus:outline-2 focus:outline-teal-500 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-100" %>
+      <p class="text-xs text-zinc-500 dark:text-zinc-400">Order within a series.</p>
+    </div>
+
+    <div class="space-y-2">
+      <%= f.label :published_at, class: "block text-sm font-medium text-zinc-700 dark:text-zinc-300" %>
+      <%= f.datetime_field :published_at,
+            class: "block w-full rounded-md border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 shadow-sm transition focus:border-teal-500 focus:outline-2 focus:outline-teal-500 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-100" %>
+      <p class="text-xs text-zinc-500 dark:text-zinc-400">Leave blank to keep as draft. A future date schedules the post.</p>
+    </div>
+
+    <details class="rounded-md border border-zinc-200 bg-zinc-50 px-4 py-3 dark:border-zinc-800 dark:bg-zinc-800/50">
+      <summary class="cursor-pointer text-sm font-medium text-zinc-700 dark:text-zinc-300">Advanced</summary>
+      <div class="mt-3 space-y-2">
+        <%= f.label :content_path, class: "block text-sm font-medium text-zinc-700 dark:text-zinc-300" %>
+        <%= f.text_field :content_path,
+              class: "block w-full rounded-md border border-zinc-300 bg-white px-3 py-2 text-sm font-mono text-zinc-900 shadow-sm transition placeholder:text-zinc-400 focus:border-teal-500 focus:outline-2 focus:outline-teal-500 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-100" %>
+        <p class="text-xs text-zinc-500 dark:text-zinc-400">Setting this makes the post file-backed (renders an ERB template at <code>app/views/&lt;content_path&gt;</code>); the body becomes optional.</p>
+      </div>
+    </details>
+  </div>
+
+  <div class="flex items-center gap-3 pt-6">
+    <%= f.submit class: "inline-flex items-center justify-center rounded-md bg-teal-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-teal-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-500 disabled:opacity-50 dark:bg-teal-500 dark:hover:bg-teal-400" %>
+    <%= link_to "Cancel", admin_posts_path, class: "inline-flex items-center justify-center rounded-md border border-zinc-300 bg-white px-4 py-2 text-sm font-semibold text-zinc-700 shadow-sm transition hover:bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-200 dark:hover:bg-zinc-700" %>
+  </div>
+<% end %>

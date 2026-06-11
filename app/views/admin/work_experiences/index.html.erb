@@ -1,0 +1,44 @@
+<div class="mb-8 flex items-center justify-between gap-4">
+  <h1 class="text-2xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100">Work experiences</h1>
+  <%= link_to "New work experience", new_admin_work_experience_path, class: "inline-flex items-center justify-center rounded-md bg-teal-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-teal-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-500 dark:bg-teal-500 dark:hover:bg-teal-400" %>
+</div>
+
+<% if @work_experiences.any? %>
+  <div class="overflow-hidden rounded-xl bg-white ring-1 ring-zinc-200 dark:bg-zinc-900 dark:ring-zinc-800">
+    <table class="min-w-full divide-y divide-zinc-200 dark:divide-zinc-800">
+      <thead class="bg-zinc-50 dark:bg-zinc-800/50">
+        <tr>
+          <th scope="col" class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">Company</th>
+          <th scope="col" class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">Role</th>
+          <th scope="col" class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">Started</th>
+          <th scope="col" class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">Ended</th>
+          <th scope="col" class="relative px-4 py-3"><span class="sr-only">Actions</span></th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-zinc-100 dark:divide-zinc-800">
+        <% @work_experiences.each do |work_experience| %>
+          <tr class="transition hover:bg-zinc-50 dark:hover:bg-zinc-800/40">
+            <td class="px-4 py-3 text-sm font-medium text-zinc-800 dark:text-zinc-100"><%= work_experience.company %></td>
+            <td class="px-4 py-3 text-sm text-zinc-600 dark:text-zinc-400"><%= work_experience.role %></td>
+            <td class="px-4 py-3 text-sm text-zinc-600 dark:text-zinc-400"><%= work_experience.started_on %></td>
+            <td class="px-4 py-3 text-sm text-zinc-600 dark:text-zinc-400">
+              <% if work_experience.ongoing? %>
+                <span class="inline-flex items-center rounded-full bg-teal-50 px-2.5 py-0.5 text-xs font-medium text-teal-700 ring-1 ring-inset ring-teal-600/20 dark:bg-teal-400/10 dark:text-teal-300 dark:ring-teal-400/20">Present</span>
+              <% else %>
+                <%= work_experience.ended_on %>
+              <% end %>
+            </td>
+            <td class="px-4 py-3 text-right text-sm">
+              <div class="flex items-center justify-end gap-4">
+                <%= link_to "Edit", edit_admin_work_experience_path(work_experience), class: "font-medium text-teal-600 hover:text-teal-500 dark:text-teal-400" %>
+                <%= button_to "Delete", admin_work_experience_path(work_experience), method: :delete, form: { data: { turbo_confirm: "Are you sure?" } }, class: "font-medium text-red-600 hover:text-red-500 dark:text-red-400" %>
+              </div>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+<% else %>
+  <div class="rounded-xl border border-dashed border-zinc-300 bg-white px-6 py-12 text-center text-sm text-zinc-500 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-400">No work experiences yet.</div>
+<% end %>
