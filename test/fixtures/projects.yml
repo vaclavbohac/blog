@@ -2,10 +2,12 @@
 
 one:
   name: MyString
+  description: MyString
   logo: MyString
   link: MyString
 
 two:
   name: MyString
+  description: MyString
   logo: MyString
   link: MyString
