@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: Getting Started with Rails
+  perex: A beginner-friendly walkthrough of building your first Rails app.
+  position: 1
+
+two:
+  title: Advanced Hotwire Patterns
+  perex: Deep dives into Turbo and Stimulus for richer interactions.
+  position: 2

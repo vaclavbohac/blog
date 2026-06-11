@@ -1,12 +1,21 @@
 Rails.application.routes.draw do
   resource :session
-  resources :work_experiences
   get "about/index"
   get "projects", to: "projects#index"
   get "uses", to: "uses#index"
   root "homepage#index"
 
-  resources :posts
+  resources :posts, only: %i[index show]
+
+  namespace :admin do
+    root to: "dashboard#show"
+    resources :posts do
+      post :preview, on: :collection
+    end
+    resources :series
+    resources :projects
+    resources :work_experiences
+  end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

@@ -1,0 +1,57 @@
+<% content_for :title, @post.title %>
+
+<div class="mb-8 flex items-center justify-between gap-4">
+  <h1 class="text-2xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100"><%= @post.title %></h1>
+  <div class="flex items-center gap-3">
+    <%= link_to "Edit", edit_admin_post_path(@post), class: "inline-flex items-center justify-center rounded-md bg-teal-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-teal-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-500 dark:bg-teal-500 dark:hover:bg-teal-400" %>
+    <%= link_to "Back", admin_posts_path, class: "inline-flex items-center justify-center rounded-md border border-zinc-300 bg-white px-4 py-2 text-sm font-semibold text-zinc-700 shadow-sm transition hover:bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-200 dark:hover:bg-zinc-700" %>
+  </div>
+</div>
+
+<div class="overflow-hidden rounded-xl bg-white ring-1 ring-zinc-200 dark:bg-zinc-900 dark:ring-zinc-800">
+  <dl class="divide-y divide-zinc-100 dark:divide-zinc-800">
+    <div class="grid grid-cols-1 gap-1 px-4 py-4 sm:grid-cols-3 sm:gap-4">
+      <dt class="text-sm font-medium text-zinc-500 dark:text-zinc-400">Status</dt>
+      <dd class="text-sm text-zinc-800 sm:col-span-2 dark:text-zinc-100">
+        <% if @post.published? %>
+          <span class="inline-flex items-center rounded-full bg-teal-50 px-2.5 py-0.5 text-xs font-medium text-teal-700 ring-1 ring-inset ring-teal-600/20 dark:bg-teal-400/10 dark:text-teal-300 dark:ring-teal-400/20">Published</span>
+        <% elsif @post.published_at? %>
+          <span class="inline-flex items-center rounded-full bg-amber-50 px-2.5 py-0.5 text-xs font-medium text-amber-700 ring-1 ring-inset ring-amber-600/20 dark:bg-amber-400/10 dark:text-amber-300 dark:ring-amber-400/20">Scheduled</span>
+        <% else %>
+          <span class="inline-flex items-center rounded-full bg-zinc-100 px-2.5 py-0.5 text-xs font-medium text-zinc-600 ring-1 ring-inset ring-zinc-500/20 dark:bg-zinc-700/40 dark:text-zinc-300">Draft</span>
+        <% end %>
+      </dd>
+    </div>
+    <div class="grid grid-cols-1 gap-1 px-4 py-4 sm:grid-cols-3 sm:gap-4">
+      <dt class="text-sm font-medium text-zinc-500 dark:text-zinc-400">Perex</dt>
+      <dd class="text-sm text-zinc-800 sm:col-span-2 dark:text-zinc-100"><%= @post.perex %></dd>
+    </div>
+    <div class="grid grid-cols-1 gap-1 px-4 py-4 sm:grid-cols-3 sm:gap-4">
+      <dt class="text-sm font-medium text-zinc-500 dark:text-zinc-400">Series</dt>
+      <dd class="text-sm text-zinc-800 sm:col-span-2 dark:text-zinc-100"><%= @post.series&.title || "—" %></dd>
+    </div>
+    <div class="grid grid-cols-1 gap-1 px-4 py-4 sm:grid-cols-3 sm:gap-4">
+      <dt class="text-sm font-medium text-zinc-500 dark:text-zinc-400">Position</dt>
+      <dd class="text-sm text-zinc-800 sm:col-span-2 dark:text-zinc-100"><%= @post.position || "—" %></dd>
+    </div>
+    <div class="grid grid-cols-1 gap-1 px-4 py-4 sm:grid-cols-3 sm:gap-4">
+      <dt class="text-sm font-medium text-zinc-500 dark:text-zinc-400">Published at</dt>
+      <dd class="text-sm text-zinc-800 sm:col-span-2 dark:text-zinc-100"><%= @post.published_at ? @post.published_at.to_fs(:long) : "—" %></dd>
+    </div>
+    <% if @post.file_backed? %>
+      <div class="grid grid-cols-1 gap-1 px-4 py-4 sm:grid-cols-3 sm:gap-4">
+        <dt class="text-sm font-medium text-zinc-500 dark:text-zinc-400">Content path</dt>
+        <dd class="text-sm font-mono text-zinc-800 sm:col-span-2 dark:text-zinc-100"><%= @post.content_path %></dd>
+      </div>
+    <% else %>
+      <div class="grid grid-cols-1 gap-1 px-4 py-4 sm:grid-cols-3 sm:gap-4">
+        <dt class="text-sm font-medium text-zinc-500 dark:text-zinc-400">Body</dt>
+        <dd class="prose prose-zinc dark:prose-invert max-w-none text-sm sm:col-span-2"><%= MarkdownRenderer.render(@post.body) %></dd>
+      </div>
+    <% end %>
+  </dl>
+</div>
+
+<div class="mt-6">
+  <%= button_to "Delete", admin_post_path(@post), method: :delete, form: { data: { turbo_confirm: "Are you sure?" } }, class: "inline-flex items-center justify-center rounded-md bg-red-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-red-500 dark:bg-red-500 dark:hover:bg-red-400" %>
+</div>

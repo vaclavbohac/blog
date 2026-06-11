@@ -22,25 +22,25 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test "write actions require authentication" do
+  test "admin write actions require authentication" do
     sign_out
 
-    get new_post_url
+    get new_admin_post_url
     assert_redirected_to new_session_path
 
     assert_no_difference("Post.count") do
-      post posts_url, params: { post: { title: "x", perex: "x", body: "x" } }
+      post admin_posts_url, params: { post: { title: "x", perex: "x", body: "x" } }
     end
     assert_redirected_to new_session_path
 
-    get edit_post_url(@post)
+    get edit_admin_post_url(@post)
     assert_redirected_to new_session_path
 
-    patch post_url(@post), params: { post: { title: "x" } }
+    patch admin_post_url(@post), params: { post: { title: "x" } }
     assert_redirected_to new_session_path
 
     assert_no_difference("Post.count") do
-      delete post_url(@post)
+      delete admin_post_url(@post)
     end
     assert_redirected_to new_session_path
   end
@@ -56,19 +56,6 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
     assert_select "article a[href=?]", post_path(published), text: published.title
     assert_select "a[href=?]", post_path(draft), count: 0
     assert_select "a[href=?]", post_path(scheduled), count: 0
-  end
-
-  test "should get new" do
-    get new_post_url
-    assert_response :success
-  end
-
-  test "should create post" do
-    assert_difference("Post.count") do
-      post posts_url, params: { post: { body: @post.body, perex: @post.perex, title: @post.title } }
-    end
-
-    assert_redirected_to post_url(Post.last)
   end
 
   test "should show post" do
@@ -145,23 +132,5 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select "nav a[href=?]", post_path(second), text: /Part 2/
     assert_select "nav a[href=?]", post_path(first), count: 0
-  end
-
-  test "should get edit" do
-    get edit_post_url(@post)
-    assert_response :success
-  end
-
-  test "should update post" do
-    patch post_url(@post), params: { post: { body: @post.body, perex: @post.perex, title: @post.title } }
-    assert_redirected_to post_url(@post)
-  end
-
-  test "should destroy post" do
-    assert_difference("Post.count", -1) do
-      delete post_url(@post)
-    end
-
-    assert_redirected_to posts_url
   end
 end

@@ -1,0 +1,56 @@
+<% content_for :title, "Dashboard" %>
+
+<div class="mb-8 flex items-center justify-between gap-4">
+  <h1 class="text-2xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100">Dashboard</h1>
+  <%= link_to "New post", new_admin_post_path, class: "inline-flex items-center justify-center rounded-md bg-teal-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-teal-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-500 dark:bg-teal-500 dark:hover:bg-teal-400" %>
+</div>
+
+<div class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
+  <%= link_to admin_posts_path, class: "rounded-2xl border border-zinc-200 p-6 transition hover:border-teal-400 dark:border-zinc-700 dark:hover:border-teal-500" do %>
+    <p class="text-3xl font-bold text-teal-600 dark:text-teal-400"><%= @posts_count %></p>
+    <p class="mt-1 text-sm font-medium text-zinc-500 dark:text-zinc-400">Posts</p>
+  <% end %>
+
+  <%= link_to admin_posts_path, class: "rounded-2xl border border-zinc-200 p-6 transition hover:border-teal-400 dark:border-zinc-700 dark:hover:border-teal-500" do %>
+    <p class="text-3xl font-bold text-teal-600 dark:text-teal-400"><%= @drafts_count %></p>
+    <p class="mt-1 text-sm font-medium text-zinc-500 dark:text-zinc-400">Drafts</p>
+  <% end %>
+
+  <%= link_to admin_series_index_path, class: "rounded-2xl border border-zinc-200 p-6 transition hover:border-teal-400 dark:border-zinc-700 dark:hover:border-teal-500" do %>
+    <p class="text-3xl font-bold text-teal-600 dark:text-teal-400"><%= @series_count %></p>
+    <p class="mt-1 text-sm font-medium text-zinc-500 dark:text-zinc-400">Series</p>
+  <% end %>
+
+  <%= link_to admin_projects_path, class: "rounded-2xl border border-zinc-200 p-6 transition hover:border-teal-400 dark:border-zinc-700 dark:hover:border-teal-500" do %>
+    <p class="text-3xl font-bold text-teal-600 dark:text-teal-400"><%= @projects_count %></p>
+    <p class="mt-1 text-sm font-medium text-zinc-500 dark:text-zinc-400">Projects</p>
+  <% end %>
+
+  <%= link_to admin_work_experiences_path, class: "rounded-2xl border border-zinc-200 p-6 transition hover:border-teal-400 dark:border-zinc-700 dark:hover:border-teal-500" do %>
+    <p class="text-3xl font-bold text-teal-600 dark:text-teal-400"><%= @work_experiences_count %></p>
+    <p class="mt-1 text-sm font-medium text-zinc-500 dark:text-zinc-400">Work</p>
+  <% end %>
+</div>
+
+<div class="mt-10">
+  <h2 class="mb-4 text-lg font-semibold text-zinc-800 dark:text-zinc-100">Recent posts</h2>
+
+  <% if @recent_posts.any? %>
+    <div class="overflow-hidden rounded-xl bg-white ring-1 ring-zinc-200 dark:bg-zinc-900 dark:ring-zinc-800">
+      <ul class="divide-y divide-zinc-100 dark:divide-zinc-800">
+        <% @recent_posts.each do |post| %>
+          <li class="flex items-center justify-between gap-4 px-4 py-3 transition hover:bg-zinc-50 dark:hover:bg-zinc-800/40">
+            <%= link_to post.title, edit_admin_post_path(post), class: "text-sm font-medium text-zinc-800 hover:text-teal-600 dark:text-zinc-100 dark:hover:text-teal-400" %>
+            <% if post.published_at? && post.published_at <= Time.current %>
+              <span class="inline-flex items-center rounded-full bg-teal-50 px-2.5 py-0.5 text-xs font-medium text-teal-700 ring-1 ring-inset ring-teal-600/20 dark:bg-teal-400/10 dark:text-teal-300 dark:ring-teal-400/20">Published</span>
+            <% else %>
+              <span class="inline-flex items-center rounded-full bg-zinc-100 px-2.5 py-0.5 text-xs font-medium text-zinc-600 ring-1 ring-inset ring-zinc-500/20 dark:bg-zinc-700/40 dark:text-zinc-300 dark:ring-zinc-500/20">Draft</span>
+            <% end %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  <% else %>
+    <div class="rounded-xl border border-dashed border-zinc-300 bg-white px-6 py-12 text-center text-sm text-zinc-500 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-400">No posts yet.</div>
+  <% end %>
+</div>
